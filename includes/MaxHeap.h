@@ -21,6 +21,7 @@ private:
     void Swap(HeapNode &p1, HeapNode &p2);
 
 public:
+    void IncreaseKey(int place, int newKey);
     bool IsEmpty() const;
     void MakeEmpty();
     void Insert(HeapNode &p);

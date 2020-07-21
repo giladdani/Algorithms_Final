@@ -2,14 +2,14 @@
 
 List::List()
 {
-	head = tail = NULL;
+	head = tail = nullptr;
 }
 
 List::~List()
 {
 	Node *curr = head;
 	Node *temp;
-	while (curr->next != NULL) // @ should 'next' be private? and then use Getter for it?
+	while (curr->next != nullptr) // @ should 'next' be private? and then use Getter for it?
 	{
 		temp = curr->next;
 		delete curr;
@@ -20,7 +20,7 @@ List::~List()
 
 void List::Insert(Node *newNode)
 {
-	if (head == NULL)
+	if (head == nullptr)
 	{
 		head = tail = newNode;
 	}

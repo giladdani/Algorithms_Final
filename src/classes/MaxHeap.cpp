@@ -97,6 +97,10 @@ HeapNode &MaxHeap::Max() const
 {
     return data[0];
 }
+void MaxHeap::IncreaseKey(int place, int newKey)
+{
+    this->data[place].key = newKey;
+}
 
 // Fix Heap Theta(log(n))
 void MaxHeap::FixHeap(int parent_index)
