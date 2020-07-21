@@ -1,4 +1,4 @@
-#include "MaxHeap.h"
+#include "../../includes/MaxHeap.h"
 
 // Build heap (according to floyd's algorithm)
 MaxHeap::MaxHeap(HeapNode *arr, int size)

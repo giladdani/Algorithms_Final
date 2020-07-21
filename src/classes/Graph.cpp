@@ -45,7 +45,7 @@ bool Graph::IsAdjacent(int u, int v)
 
 // Returns a List of neighbour of 'u'
 List Graph::GetAdjList(int u)
-{
+{//Need to built
 	List neighbour;
 
 	return neighbour;

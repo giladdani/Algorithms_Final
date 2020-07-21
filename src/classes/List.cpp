@@ -9,7 +9,7 @@ List::~List()
 {
 	Node *curr = head;
 	Node *temp;
-	while (curr->next != nullptr) // @ should 'next' be private? and then use Getter for it?
+	while (curr != nullptr) // @ should 'next' be private? and then use Getter for it?
 	{
 		temp = curr->next;
 		delete curr;
