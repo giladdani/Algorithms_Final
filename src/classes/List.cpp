@@ -1,4 +1,4 @@
-#include "List.h"
+#include "../../includes/List.h"
 
 List::List()
 {
@@ -7,9 +7,9 @@ List::List()
 
 List::~List()
 {
-	Node* curr = head;
-	Node* temp;
-	while (curr->next != NULL)			// @ should 'next' be private? and then use Getter for it?
+	Node *curr = head;
+	Node *temp;
+	while (curr->next != NULL) // @ should 'next' be private? and then use Getter for it?
 	{
 		temp = curr->next;
 		delete curr;
@@ -18,7 +18,7 @@ List::~List()
 	delete curr;
 }
 
-void List::Insert(Node* newNode)
+void List::Insert(Node *newNode)
 {
 	if (head == NULL)
 	{

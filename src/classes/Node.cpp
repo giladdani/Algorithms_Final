@@ -1,7 +1,7 @@
-#include "Node.h"
+#include "../../includes/List.h"
 
 // C'tor
-Node::Node(int data, Node* next)
+Node::Node(int data, Node *next)
 {
 	this->data = data;
 	this->next = next;
@@ -14,9 +14,9 @@ const int Node::getData() const
 }
 
 // Deletes the Node after this node
-Node* Node::DeleteAfter()
+Node *Node::DeleteAfter()
 {
-	Node* temp = this->next;
+	Node *temp = this->next;
 	this->next = this->next->next;
 	return temp;
 }

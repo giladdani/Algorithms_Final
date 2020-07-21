@@ -1,11 +1,11 @@
-#include "Graph.h"
+#include "../../includes/Graph.h"
 
 // C'tor
 Graph::Graph(int size)
 {
 	// we set the capacity matrix's size to be n+1 because we want it to start from index 1 and not 0
 	n = size + 1;
-	capacities = new int*[n];
+	capacities = new int *[n];
 	for (int i = 0; i < n; i++)
 	{
 		capacities[i] = new int[n];
@@ -15,10 +15,10 @@ Graph::Graph(int size)
 }
 
 // Copy c'tor
-Graph::Graph(const Graph & other)
+Graph::Graph(const Graph &other)
 {
 	this->n = other.n;
-	this->capacities = new int*[n];
+	this->capacities = new int *[n];
 	for (int i = 0; i < n; i++)
 	{
 		capacities[i] = new int[n];
@@ -43,12 +43,12 @@ bool Graph::IsAdjacent(int u, int v)
 	return false;
 }
 
-// Returns a List of neighbours of 'u'
+// Returns a List of neighbour of 'u'
 List Graph::GetAdjList(int u)
 {
-	List neighbours;
+	List neighbour;
 
-	return neighbours;
+	return neighbour;
 }
 
 // Adds an Edge (u,v) to the graph with a positive capacity 'c'
