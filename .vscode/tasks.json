@@ -7,11 +7,11 @@
       "command": "/usr/bin/g++",
       "args": [
         "-g",
-        "${file}",
+        "/home/yakir/Desktop/C++/Algorithms_Final/main.cpp",
         "/home/yakir/Desktop/C++/Algorithms_Final/src/classes/*.cpp",
         "/home/yakir/Desktop/C++/Algorithms_Final/src/utils/*.cpp",
         "-o",
-        "${fileDirname}/${fileBasenameNoExtension}"
+        "/home/yakir/Desktop/C++/Algorithms_Final/main"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

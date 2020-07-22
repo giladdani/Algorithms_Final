@@ -45,20 +45,19 @@ bool *Dijkstra(Graph &graph, int s, int *d, int *p)
 	bool *visited = new bool[graph.n];
 	for (int i = 1; i < graph.n; i++)
 		visited[i] = false;
-
 	for (int i = 1; i < graph.n; i++)
 	{
 		d[i] = 0;
 	}
 	p[s] = 0;
 	d[s] = MAX_INT; //Assume MAX_INT is infinity.
-	HeapNode *heapNodes = new HeapNode[graph.n];
-	for (int i = 1; i < graph.n; i++)
+	HeapNode *heapNodes = new HeapNode[graph.n - 1];
+	for (int i = 0; i < graph.n - 1; i++)
 	{
-		heapNodes[i].key = d[i];
-		heapNodes[i].value = i;
+		heapNodes[i].key = d[i + 1];
+		heapNodes[i].value = i + 1;
 	}
-	MaxHeap Q(heapNodes, graph.n);
+	MaxHeap Q(heapNodes, graph.n - 1);
 	while (!Q.IsEmpty())
 	{
 		HeapNode u = Q.DeleteMax();
@@ -67,20 +66,17 @@ bool *Dijkstra(Graph &graph, int s, int *d, int *p)
 		while (v != nullptr)
 		{
 			int v_data = v->getData();
-			if (d[v_data] < d[u.value] + graph.capacities[u.value][v_data])
-				if (d[u.value] == MAX_INT) // in case we are in vertex s,curropted value.
-				{
-					d[v_data] = graph.capacities[u.value][v_data];
-				}
-				else
-				{ //we are in a vertex with real value.
-					d[v_data] = d[u.value] + graph.capacities[u.value][v_data];
-				}
-			visited[v_data] = true;
-			p[v_data] = u.value;
-			Q.IncreaseKey(v_data, d[v_data]);
+			if (((d[v_data] < d[u.value]) && (graph.capacities[u.value][v_data] > d[v_data])) || d[u.value] == MAX_INT)
+			{
+				d[v_data] = min(graph.capacities[u.value][v_data], d[u.value]);
+				visited[v_data] = true;
+				p[v_data] = u.value;
+				Q.IncreaseKey(v_data - 1, d[v_data]);
+			}
+			v = v->next;
 		}
 	}
+	return visited;
 }
 
 /* Prints the maximum flow of the network, the MinCut and the number of BFS iterations

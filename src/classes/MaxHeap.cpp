@@ -88,7 +88,7 @@ void MaxHeap::Insert(HeapNode &p)
     {
         data[i] = data[Parent(i)];
         i = Parent(i);
-    }
+    };
     data[i] = p;
 }
 
@@ -99,7 +99,13 @@ HeapNode &MaxHeap::Max() const
 }
 void MaxHeap::IncreaseKey(int place, int newKey)
 {
+    int parent = Parent(place);
     this->data[place].key = newKey;
+    while ((place > 0) && (data[parent].key < data[place].key))
+    {
+        Swap(data[place], data[parent]);
+        place = parent;
+    }
 }
 
 // Fix Heap Theta(log(n))
