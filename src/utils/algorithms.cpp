@@ -66,7 +66,7 @@ bool *Dijkstra(Graph &graph, int s, int *d, int *p)
 		while (v != nullptr)
 		{
 			int v_data = v->getData();
-			if (((d[v_data] < d[u.value]) && (graph.capacities[u.value][v_data] > d[v_data])) || d[u.value] == MAX_INT)
+			if (((d[v_data] <= d[u.value]) && (graph.capacities[u.value][v_data] > d[v_data])) || d[u.value] == MAX_INT)
 			{
 				d[v_data] = min(graph.capacities[u.value][v_data], d[u.value]);
 				visited[v_data] = true;

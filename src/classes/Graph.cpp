@@ -51,6 +51,8 @@ List Graph::GetAdjList(int u)
 	{
 		if (this->IsAdjacent(u, i))
 			neighbour.Insert(new Node(i, nullptr));
+		// if (this->IsAdjacent(i, u))
+		// 	neighbour.Insert(new Node(i, nullptr));
 	}
 
 	return neighbour;

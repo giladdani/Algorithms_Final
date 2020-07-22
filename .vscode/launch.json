@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "/home/yakir/Desktop/C++/Algorithms_Final/main",
-      "args": ["./inputs/input1.txt"],
+      "args": ["./inputs/input2.txt"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
