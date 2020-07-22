@@ -15,7 +15,6 @@ List::~List()
 		delete curr;
 		curr = temp;
 	}
-	delete curr;
 }
 
 void List::Insert(Node *newNode)

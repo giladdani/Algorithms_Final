@@ -65,7 +65,6 @@ HeapNode MaxHeap::DeleteMax()
         std::cout << "Error: EMPTY HEAP\n";
         exit(1);
     }
-
     HeapNode max = data[0];
     heapSize--;
     data[0] = data[heapSize];
@@ -97,32 +96,48 @@ HeapNode &MaxHeap::Max() const
 {
     return data[0];
 }
-void MaxHeap::IncreaseKey(int place, int newKey)
+void MaxHeap::IncreaseKey(int vertex, int newKey)
 {
-    int parent = Parent(place);
-    this->data[place].key = newKey;
-    while ((place > 0) && (data[parent].key <= data[place].key))
+    int placeInHeap;
+    for (int i = 0; i < this->heapSize; i++) 
+    //Finding actually place of the vertex in the Heap
     {
-        Swap(data[place], data[parent]);
-        place = parent;
-        parent=Parent(place);
+        if (this->data[i].value == vertex)
+            placeInHeap = i;
     }
+    int parent = Parent(placeInHeap);
+    this->data[placeInHeap].key = newKey;
+    while ((placeInHeap > 0) && (data[parent].key < data[placeInHeap].key))
+    {
+        Swap(data[placeInHeap], data[parent]);
+        placeInHeap = parent;
+        parent = Parent(placeInHeap);
+    }
+}
+bool MaxHeap::isVertexInHeap(int vertex) const
+{
+    for (int i = 0; i < this->heapSize; i++)
+    {
+        if (this->data[i].value == vertex)
+            return true;
+    }
+    return false;
 }
 
 // Fix Heap Theta(log(n))
-void MaxHeap::FixHeap(int parent_index)
+void MaxHeap::FixHeap(int vertex)
 {
-    int max = parent_index;
-    int left = Left(parent_index);   // get left child
-    int right = Right(parent_index); // get right child
+    int max = vertex;
+    int left = Left(vertex);   // get left child
+    int right = Right(vertex); // get right child
 
-    if ((left < heapSize) && (data[parent_index].key < data[left].key))
+    if ((left < heapSize) && (data[vertex].key < data[left].key))
         max = left;
     else if ((right < heapSize) && (data[max].key < data[right].key))
         max = right;
-    if (max != parent_index)
+    if (max != vertex)
     {
-        Swap(data[parent_index], data[max]);
+        Swap(data[vertex], data[max]);
         FixHeap(max);
     }
 }

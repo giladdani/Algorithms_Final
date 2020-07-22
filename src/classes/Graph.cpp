@@ -44,15 +44,13 @@ bool Graph::IsAdjacent(int u, int v)
 }
 
 // Returns a List of neighbour of 'u'
-List Graph::GetAdjList(int u)
+List *Graph::GetAdjList(int u)
 { //Need to built
-	List neighbour;
+	List *neighbour = new List();
 	for (int i = 1; i < this->n; i++)
 	{
 		if (this->IsAdjacent(u, i))
-			neighbour.Insert(new Node(i, nullptr));
-		// if (this->IsAdjacent(i, u))
-		// 	neighbour.Insert(new Node(i, nullptr));
+			neighbour->Insert(new Node(i, nullptr));
 	}
 
 	return neighbour;

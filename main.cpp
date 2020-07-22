@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		cout << "File did not load successfully." << endl;
-		return 0;
+		cout << "File didn't load successfully, ABORTED." << endl;
+		exit(1);
 	}
 }
