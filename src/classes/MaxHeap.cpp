@@ -4,8 +4,9 @@
 MaxHeap::MaxHeap(HeapNode *arr, int size)
 {
     heapSize = maxSize = size;
-    data = arr;
-
+    this->data = new HeapNode[size];
+    for (int i = 0; i < size; i++)
+        this->data[i] = arr[i];
     for (int i = (size / 2) - 1; i >= 0; i--) // floyd's algorithm
         FixHeap(i);
 }
@@ -13,7 +14,7 @@ MaxHeap::MaxHeap(HeapNode *arr, int size)
 // d'tor
 MaxHeap::~MaxHeap()
 {
-    delete data;
+    delete[] this->data;
 }
 
 // get index of left child of parent_index in the arr
@@ -99,7 +100,7 @@ HeapNode &MaxHeap::Max() const
 void MaxHeap::IncreaseKey(int vertex, int newKey)
 {
     int placeInHeap;
-    for (int i = 0; i < this->heapSize; i++) 
+    for (int i = 0; i < this->heapSize; i++)
     //Finding actually place of the vertex in the Heap
     {
         if (this->data[i].value == vertex)

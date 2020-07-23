@@ -9,14 +9,15 @@ int main(int argc, char *argv[])
 	ifstream file(argv[1], ios::in);
 	if (file)
 	{
-		FlowNetwork network = ReadNetworkFromFile(file); // create Flow Network from file
+		FlowNetwork *network = ReadNetworkFromFile(file); // create Flow Network from file
 		// BFS method
 		cout << "BFS Method: " << endl;
-		FordBFS(network);
+		FordBFS(*network);
 
 		// Greedy method
 		cout << "Greedy Method: " << endl;
-		FordGreedy(network);
+		FordGreedy(*network);
+		delete network;
 		return 0;
 	}
 	else

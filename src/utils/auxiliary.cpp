@@ -2,7 +2,7 @@
 #include "../../includes/FlowNetwork.h"
 
 // Returns a Flow Network created from the input of the given file
-FlowNetwork ReadNetworkFromFile(ifstream &file)
+FlowNetwork *ReadNetworkFromFile(ifstream &file)
 {
 	int n, m, s, t;
 	int u, v, c;
@@ -13,7 +13,7 @@ FlowNetwork ReadNetworkFromFile(ifstream &file)
 	file >> s; // source
 	file >> t; // sink
 
-	Graph graph(n);
+	Graph *graph = new Graph(n);
 
 	// init capacities
 	bool valid_input;
@@ -22,7 +22,7 @@ FlowNetwork ReadNetworkFromFile(ifstream &file)
 		file >> u;
 		file >> v;
 		file >> c;
-		valid_input = graph.AddEdge(u, v, c);
+		valid_input = graph->AddEdge(u, v, c);
 		if (!valid_input)
 		{
 			cout << "INPUT ERROR: edge "
@@ -32,7 +32,8 @@ FlowNetwork ReadNetworkFromFile(ifstream &file)
 	}
 
 	file.close();
-	FlowNetwork network(s, t, graph);
+	FlowNetwork *network = new FlowNetwork(s, t, *graph);
+	delete graph;
 	return network;
 }
 
@@ -61,4 +62,3 @@ void PrintCuts(List &S, List &T)
 	}
 	cout << endl;
 }
-

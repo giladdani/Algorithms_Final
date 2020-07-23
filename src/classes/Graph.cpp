@@ -31,8 +31,8 @@ Graph::Graph(const Graph &other)
 Graph::~Graph()
 {
 	for (int i = 0; i < n; i++)
-		delete capacities[i];
-	delete capacities;
+		delete[] capacities[i];
+	delete[] capacities;
 }
 
 // Returns true if there is an Edge (u,v) in the graph, otherwise- return false
