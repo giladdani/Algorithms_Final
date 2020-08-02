@@ -60,7 +60,7 @@ List *Graph::GetAdjList(int u)
 bool Graph::AddEdge(int u, int v, int c)
 {
 	// validate given capacity
-	if (c <= 0)
+	if (c <= 0 || this->capacities[u][v] != 0 || u == v || u < 0 || v < 0)
 		return false;
 	else
 	{

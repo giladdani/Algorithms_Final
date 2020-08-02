@@ -12,7 +12,11 @@ FlowNetwork *ReadNetworkFromFile(ifstream &file)
 	file >> m; // edges
 	file >> s; // source
 	file >> t; // sink
-
+	if (n < 2 || m < 1 || s == t || s < 1 || t < 1)
+	{
+		cout << "INPUT ERROR: ABORTED!" << endl;
+		exit(1);
+	}
 	Graph *graph = new Graph(n);
 
 	// init capacities
@@ -25,8 +29,7 @@ FlowNetwork *ReadNetworkFromFile(ifstream &file)
 		valid_input = graph->AddEdge(u, v, c);
 		if (!valid_input)
 		{
-			cout << "INPUT ERROR: edge "
-				 << "(" << u << "," << v << ") capacity must be non-negative\n";
+			cout << "INPUT ERROR: ABORTED!" << endl;
 			exit(1);
 		}
 	}
