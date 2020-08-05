@@ -1,12 +1,12 @@
 /* Instructions:
-	The Program recives a text file as input (passed as parameter to the main) describing a Graph with source
-	and sink vertices and capacities of existing edges.
-	The program will then create a Flow Network and calculate and print the maximum flow and minimum cut
-	of the network in 2 implementations of Ford-Fulkerson:
-	1) Using BFS to find the improving path each iteration.
-	2) Using a "greedy" variation of Dijkstra to find the "most improving" path each iteration.
-	
-	Keep in mind that the text file must be written in the right format.
+	The user must supply the name of a text file in the Main function's argv[1].
+	The program will then read the Network from the given file.
+	Keep in mind that the text file must be written in the right format:
+	- all parameters must be included and in the right amount.
+	- source and sink cannot be the same vertex.
+	- each one of the m edges with capacities parameters must be in it's own row.
+	- only numbers are allowed.
+	- whitespaces are allowed, they are just being ignored.
 */
 
 #include <iostream>
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		cout << "File didn't load successfully, ABORTED." << endl;
+		cout << "File didn't load successfully. Exiting program." << endl;
 		exit(1);
 	}
 }

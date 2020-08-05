@@ -58,19 +58,36 @@ void Graph::MakeEmptyGraph(int n)
 // Returns true if there is an Edge (u,v) in the graph, otherwise- return false
 bool Graph::IsAdjacent(int u, int v)
 {
-	if (capacities[u][v] > 0)
-		return true;
-	return false;
+	// invalid vertices
+	if (u < 1 || v < 1 || u >= n || v >= n)
+	{
+		return false;
+	}
+	else
+	{
+		if (capacities[u][v] > 0)
+			return true;
+		return false;
+	}
 }
 
 // Returns a List of neighbour of 'u'
 List* Graph::GetAdjList(int u)
 {
 	List* neighbour = new List();
-	for (int i = 1; i < this->n; i++)
+
+	// invalid vertex
+	if (u < 1 || u >= n)
 	{
-		if (this->IsAdjacent(u, i))
-			neighbour->Insert(new ListNode(i, nullptr));
+		return neighbour;
+	}
+	else
+	{
+		for (int i = 1; i < this->n; i++)
+		{
+			if (this->IsAdjacent(u, i))
+				neighbour->Insert(new ListNode(i, nullptr));
+		}
 	}
 	return neighbour;
 }
@@ -103,4 +120,38 @@ bool Graph::AddEdge(int u, int v, int c)
 void Graph::RemoveEdge(int u, int v)
 {
 	capacities[u][v] = 0;
+}
+
+// Returns the number of vertices in the graph
+int Graph::GetSize() const
+{
+	return n;
+}
+
+// Returns the capacity of the edge (u,v)
+int Graph::GetCapacity(int u, int v) const
+{
+	// invalid vertices
+	if ((u < 1) || (u >= n) || (v < 1) || (v >= n))
+	{
+		return (-1);
+	}
+	else
+	{
+		return capacities[u][v];
+	}
+}
+
+// Sets the capacity of edge (u,v) to c
+bool Graph::SetCapacity(int u, int v, int c)
+{
+	// invalid vertices or new capacity
+	if ((u < 1) || (u >= n) || (v < 1) || (v >= n) || c < 0)
+	{
+		return false;
+	}
+	else
+	{
+		capacities[u][v] = c;
+	}
 }

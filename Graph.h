@@ -16,7 +16,11 @@ public:
 	bool AddEdge(int u, int v, int c);
 	void RemoveEdge(int u, int v);
 
-public:
+	int GetSize() const;
+	int GetCapacity(int u, int v) const;
+	bool SetCapacity(int u, int v, int c);
+
+private:
 	int n;
 	int **capacities;
 };

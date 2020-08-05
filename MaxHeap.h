@@ -16,7 +16,6 @@ public:
 	int GetIndexInHeap(int vertex) const;
 	bool IsEmpty() const;
 	void MakeEmpty();
-	void Insert(HeapNode& p);
 	HeapNode DeleteMax();
 	HeapNode& Max() const;
 

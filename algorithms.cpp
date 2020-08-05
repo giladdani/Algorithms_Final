@@ -10,8 +10,8 @@
 bool* BFS(Graph &rGraph, int s, int t, int *parent)
 {
 	// allocate visited array and init all to false
-	bool* visited = new bool[rGraph.n];
-	for (int i = 1; i < rGraph.n; i++)
+	bool* visited = new bool[rGraph.GetSize()];
+	for (int i = 1; i < rGraph.GetSize(); i++)
 	{
 		visited[i] = false;
 	}
@@ -25,10 +25,10 @@ bool* BFS(Graph &rGraph, int s, int t, int *parent)
 	while (!Q->IsEmpty())
 	{
 		int u = Q->Dequeue();
-		for (int v = 1; v < rGraph.n; v++)
+		for (int v = 1; v < rGraph.GetSize(); v++)
 		{
 			// enqueue and mark all of the current vertex's neighbour that haven't been visited yet
-			if (rGraph.capacities[u][v] > 0 && visited[v] == false)
+			if (rGraph.GetCapacity(u,v) > 0 && visited[v] == false)
 			{
 				visited[v] = true;
 				parent[v] = u;
@@ -48,6 +48,7 @@ void FordBFS(FlowNetwork &network)
 	int u, v;
 	int maxFlow = 0;
 	int itr_count = 0;
+	int originalCapacity;
 	List* S = new List();
 	List* T = new List();
 
@@ -55,7 +56,7 @@ void FordBFS(FlowNetwork &network)
 	Graph* rGraph = new Graph(network.graph);
 
 	// this array will be used to retrace the potential path found by BFS
-	int* parent = new int[rGraph->n];
+	int* parent = new int[rGraph->GetSize()];
 
 	// if an improving path exists- find it's residual capacity and increase flow in it
 	bool* visited = BFS(*rGraph, network.s, network.t, parent);
@@ -65,12 +66,12 @@ void FordBFS(FlowNetwork &network)
 		itr_count++;
 
 		// find the minimum value(capacity) to add to the path's flow
-		int minCapacity = rGraph->capacities[parent[network.t]][network.t];
+		int minCapacity = rGraph->GetCapacity(parent[network.t],network.t);
 		for (v = network.t; v != network.s; v = parent[v])
 		{
 			u = parent[v];
-			if (rGraph->capacities[u][v] < minCapacity)
-				minCapacity = rGraph->capacities[u][v];
+			if (rGraph->GetCapacity(u, v) < minCapacity)
+				minCapacity = rGraph->GetCapacity(u, v);
 		}
 
 		/* go from the end of the path to it's beginning
@@ -78,8 +79,9 @@ void FordBFS(FlowNetwork &network)
 		for (v = network.t; v != network.s; v = parent[v])
 		{
 			u = parent[v];
-			rGraph->capacities[u][v] -= minCapacity; // reduce capacity of edge
-			rGraph->capacities[v][u] += minCapacity; // increase capacity of anti-symmetric edge
+			originalCapacity = rGraph->GetCapacity(u,v);
+			rGraph->SetCapacity(u, v, (originalCapacity - minCapacity)); // reduce capacity of edge
+			rGraph->SetCapacity(v, u, (originalCapacity + minCapacity)); //increase capacity of antisymmetric edge
 		}
 		maxFlow += minCapacity;
 
@@ -88,7 +90,7 @@ void FordBFS(FlowNetwork &network)
 	}
 
 	// find minCut according to last BFS iteration
-	for (int i = 1; i < rGraph->n; i++)
+	for (int i = 1; i < rGraph->GetSize(); i++)
 	{
 		if (visited[i] == true)
 			S->Insert(new ListNode(i, nullptr));
@@ -112,9 +114,9 @@ void FordBFS(FlowNetwork &network)
 		 if infinity is the case, it doesn't add d[u] value.*/
 bool* Dijkstra(Graph &graph, int s, int *d, int *p)
 {
-	bool* visited = new bool[graph.n];
+	bool* visited = new bool[graph.GetSize()];
 
-	for (int i = 1; i < graph.n; i++)
+	for (int i = 1; i < graph.GetSize(); i++)
 	{
 		visited[i] = false;
 		d[i] = 0;
@@ -124,14 +126,14 @@ bool* Dijkstra(Graph &graph, int s, int *d, int *p)
 	d[s] = MAX_INT; // Assume MAX_INT is infinity.
 	visited[s] = true;
 
-	HeapNode* heapNodes = new HeapNode[graph.n - 1];
-	for (int i = 0; i < graph.n - 1; i++)
+	HeapNode* heapNodes = new HeapNode[graph.GetSize() - 1];
+	for (int i = 0; i < graph.GetSize() - 1; i++)
 	{
 		heapNodes[i].key = d[i + 1];
 		heapNodes[i].value = i + 1;
 	}
 
-	MaxHeap Q(heapNodes, graph.n - 1);		// create Priority Queue
+	MaxHeap Q(heapNodes, graph.GetSize() - 1);		// create Priority Queue
 	HeapNode u_heapNode;
 	int u;
 
@@ -148,11 +150,11 @@ bool* Dijkstra(Graph &graph, int s, int *d, int *p)
 			int v = v_node->getData();
 
 			// if Relax needed
-			if (((d[u] > d[v]) && (graph.capacities[u][v] > d[v])) || d[u] == MAX_INT)
+			if (((d[u] > d[v]) && (graph.GetCapacity(u,v) > d[v])) || d[u] == MAX_INT)
 			{
-				if (graph.capacities[u][v] < d[u])
+				if (graph.GetCapacity(u,v) < d[u])
 				{
-					d[v] = graph.capacities[u][v];
+					d[v] = graph.GetCapacity(u,v);
 				}
 				else
 				{
@@ -177,6 +179,7 @@ void FordGreedy(FlowNetwork& network)
 	int u, v;
 	int maxFlow = 0;
 	int itr_count = 0;
+	int originalCapacity;
 	List* S = new List();
 	List* T = new List();
 
@@ -184,8 +187,8 @@ void FordGreedy(FlowNetwork& network)
 	Graph* rGraph = new Graph(network.graph);
 
 	// this array will be used to retrace the potential path found by BFS
-	int* parent = new int[rGraph->n];
-	int* d = new int[rGraph->n];
+	int* parent = new int[rGraph->GetSize()];
+	int* d = new int[rGraph->GetSize()];
 	bool* visited = Dijkstra(*rGraph, network.s, d, parent);
 	while (visited[network.t] == true)
 	{
@@ -193,12 +196,12 @@ void FordGreedy(FlowNetwork& network)
 		itr_count++;
 
 		// find the minimum value(capacity) to add to the path's flow
-		int minCapacity = rGraph->capacities[parent[network.t]][network.t];
+		int minCapacity = rGraph->GetCapacity(parent[network.t],network.t);
 		for (v = network.t; v != network.s; v = parent[v])
 		{
 			u = parent[v];
-			if (rGraph->capacities[u][v] < minCapacity)
-				minCapacity = rGraph->capacities[u][v];
+			if (rGraph->GetCapacity(u,v) < minCapacity)
+				minCapacity = rGraph->GetCapacity(u,v);
 		}
 
 		/* go from the end of the path to it's beginning
@@ -206,18 +209,18 @@ void FordGreedy(FlowNetwork& network)
 		for (v = network.t; v != network.s; v = parent[v])
 		{
 			u = parent[v];
-			rGraph->capacities[u][v] -= minCapacity; // reduce capacity of edge
-			rGraph->capacities[v][u] += minCapacity; // increase capacity of anti-symmetric edge
+			originalCapacity = rGraph->GetCapacity(u, v);
+			rGraph->SetCapacity(u, v, (originalCapacity - minCapacity)); // reduce capacity of edge
+			rGraph->SetCapacity(v, u, (originalCapacity + minCapacity)); //increase capacity of antisymmetric edge
 		}
 		maxFlow += minCapacity;
 
-		
 		delete[] visited;	// deallocate previous array.
 		visited = Dijkstra(*rGraph, network.s, d, parent);	// search path for next iteration
 	}
 
 	// find minCut according to last iteration
-	for (int i = 1; i < rGraph->n; i++)
+	for (int i = 1; i < rGraph->GetSize(); i++)
 	{
 		if (visited[i] == true)
 			S->Insert(new ListNode(i, nullptr));

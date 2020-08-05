@@ -54,24 +54,32 @@ FlowNetwork ReadNetworkFromFile(ifstream &file)
 		string restOfTheRow;
 		getline(file, currentRow);
 		istringstream currentRowStream(currentRow);
-		
-		u = v = c = INVALID_VALUE;		// reset variables to default value (for validation purpose)
-		currentRowStream >> u;
-		currentRowStream >> v;
-		currentRowStream >> c;
 
-		isEdgeValid = graph.AddEdge(u, v, c);
-		if (!isEdgeValid)
+		// if row is empty- skip to the next one
+		if (StringHasOnlyWhitespaces(currentRow))
 		{
-			cout << "invalid input" << endl;
-			exit(1);
+			i--;
 		}
-
-		currentRowStream >> restOfTheRow;
-		if (!StringHasOnlyWhitespaces(restOfTheRow))
+		else
 		{
-			cout << "invalid input" << endl;
-			exit(1);
+			u = v = c = INVALID_VALUE;		// reset variables to default value (for validation purpose)
+			currentRowStream >> u;
+			currentRowStream >> v;
+			currentRowStream >> c;
+
+			isEdgeValid = graph.AddEdge(u, v, c);
+			if (!isEdgeValid)
+			{
+				cout << "invalid input, edge (" << u << "," << v << ") with capacity " << c << " is not valid" << endl;
+				exit(1);
+			}
+
+			currentRowStream >> restOfTheRow;
+			if (!StringHasOnlyWhitespaces(restOfTheRow))
+			{
+				cout << "invalid input" << endl;
+				exit(1);
+			}
 		}
 	}
 
@@ -80,7 +88,7 @@ FlowNetwork ReadNetworkFromFile(ifstream &file)
 	{
 		if (!StringHasOnlyWhitespaces(currentRow))
 		{
-			cout << "invalid input" << endl;
+			cout << "invalid input, file contains more edges than specified/invalid data" << endl;
 			exit(1);
 		}
 	}
